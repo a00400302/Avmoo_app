@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all"
+            android:icon="@mipmap/all"
+            android:checked="true"
+            android:title="所有" />
+        <item
+            android:id="@+id/nav_teacher"
+            android:icon="@mipmap/teacher"
+            android:title="老师" />
+        <item
+            android:id="@+id/nav_category"
+            android:icon="@mipmap/category"
+            android:title="分类" />
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@mipmap/fa"
+            android:title="收藏" />
+
+        <item android:title="其他">
+            <menu>
+                <item
+                    android:id="@+id/nav_share"
+                    android:icon="@mipmap/share"
+                    android:title="分享" />
+
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@mipmap/info"
+                    android:title="关于" />
+            </menu>
+        </item>
+    </group>
+
+
+</menu>
