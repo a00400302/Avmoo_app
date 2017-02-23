@@ -2,15 +2,26 @@ package pw.Avmo.bean;
 
 import android.graphics.Bitmap;
 
+import java.net.URL;
+
 /**
  * Created by bee on 2016/9/18.
  */
 public class Allbean {
     private String title;
     private String fanhao;
-    private Bitmap Imgurl;
+    private String Imgurl;
     private String time;
+    private String url;
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+
+        return url;
+    }
 
     public String getTime() {
         return time;
@@ -32,13 +43,13 @@ public class Allbean {
         this.fanhao = fanhao;
     }
 
-    public Bitmap getImgurl() {
+    public String getImgurl() {
         return Imgurl;
     }
 
 
 
-    public void setImgurl(Bitmap imgurl) {
+    public void setImgurl(String imgurl) {
         Imgurl = imgurl;
     }
 

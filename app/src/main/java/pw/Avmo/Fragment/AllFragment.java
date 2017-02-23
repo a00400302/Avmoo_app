@@ -19,6 +19,7 @@ import org.jsoup.*;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,26 +69,26 @@ public class AllFragment extends Fragment implements SwipeRefreshLayout.OnRefres
         listView = (RecyclerView) view.findViewById(R.id.titlelist);
         layoutManager = new LinearLayoutManager(getActivity());
         listView.setLayoutManager(layoutManager);
-        listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastItem = 0;
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (lastItem + 1 == allAdapter.getItemCount() / 2) {
-                    swipeRefreshLayout.setRefreshing(true);
-                    Thread getimgurl = new ietindeximgThread();
-                    getimgurl.setName("add");
-                    getimgurl.start();
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastItem = layoutManager.findLastVisibleItemPosition();
-            }
-        });
+//        listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            int lastItem = 0;
+//
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (lastItem + 1 == allAdapter.getItemCount() / 2) {
+//                    swipeRefreshLayout.setRefreshing(true);
+//                    Thread getimgurl = new ietindeximgThread();
+//                    getimgurl.setName("add");
+//                    getimgurl.start();
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                lastItem = layoutManager.findLastVisibleItemPosition();
+//            }
+//        });
         handler = new firstHandeler();
         swipeRefreshLayout.setOnRefreshListener(this);
         if (TYPE == 0) {
@@ -161,16 +162,18 @@ public class AllFragment extends Fragment implements SwipeRefreshLayout.OnRefres
     public List<Allbean> getAvmoolist(Document doc) {
         List<String> title = Source.getTitle(doc);
         List<String> fanhao = Source.getFanhao(doc);
-        List<Bitmap> imgurl = Source.getImgUrl(doc);
+        ArrayList<String> imgurl = Source.getImgUrl(doc);
+        List<String> urls =  Source.getURL(doc);
         List<String> time = Source.getTime(doc);
         List<Allbean> allarray = new ArrayList<Allbean>();
         for (int i = 0; i < title.size(); i++) {
-            Log.d("allbeab", "getAvmooblist: " + imgurl.get(i));
+//            Log.d("allbeab", "getAvmooblist: " + imgurl.get(i));
             Log.d("allbeab", "getAvmooblist: " + title.get(i) + i);
             Log.d("allbeab", "getAvmooblist: " + fanhao.get(i));
             Log.d("allbeab", "getAvmooblist: " + time.get(i));
             Allbean allbean = new Allbean();
             allbean.setFanhao(fanhao.get(i));
+            allbean.setUrl(urls.get(i));
             allbean.setImgurl(imgurl.get(i));
             allbean.setTime(time.get(i));
             allbean.setTitle(title.get(i));

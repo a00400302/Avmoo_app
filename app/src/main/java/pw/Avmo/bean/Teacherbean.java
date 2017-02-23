@@ -7,14 +7,14 @@ import android.graphics.Bitmap;
  */
 
 public class Teacherbean {
-    String Name;
-    Bitmap Teacherimg;
+    private String Name;
+    private String Teacherimg;
 
-    public Bitmap getTeacherimg() {
+    public String getTeacherimg() {
         return Teacherimg;
     }
 
-    public void setTeacherimg(Bitmap teacherimg) {
+    public void setTeacherimg(String teacherimg) {
         Teacherimg = teacherimg;
     }
 

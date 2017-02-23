@@ -9,24 +9,24 @@ import java.net.URL;
  */
 
 public class YulantuBean {
-    URL Dayulantu;
-    Bitmap Xiaoyulantu;
+    String Dayulantu;
+    String Xiaoyulantu;
 
 
-    public void setDayulantu(URL dayulantu) {
+    public void setDayulantu(String dayulantu) {
         Dayulantu = dayulantu;
     }
 
-    public void setXiaoyulantu(Bitmap xiaoyulantu) {
+    public void setXiaoyulantu(String xiaoyulantu) {
         Xiaoyulantu = xiaoyulantu;
     }
 
-    public URL getDayulantu() {
+    public String getDayulantu() {
 
         return Dayulantu;
     }
 
-    public Bitmap getXiaoyulantu() {
+    public String getXiaoyulantu() {
         return Xiaoyulantu;
     }
 }

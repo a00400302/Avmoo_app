@@ -177,14 +177,14 @@ public class TeacherFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     public List<Teacherbean> getTeacherSource (Document document){
         List<String> Name = Source.getTeacherName(document);
-        List<Bitmap> imgurl = Source.getTeacherUrl(document);
+//        List<Bitmap> imgurl = Source.getTeacherUrl(document);
         List<Teacherbean> Teacherlist = new ArrayList<Teacherbean>();
-        for (int i = 0; i < imgurl.size(); i++) {
-            Log.d("Teacherbean", "getTeacherlist: " + Name.get(i));
-            Teacherbean teacherbean = new Teacherbean();
-            teacherbean.setName(Name.get(i+1));
-            teacherbean.setTeacherimg(imgurl.get(i));
-            Teacherlist.add(teacherbean);
+        for (int i = 0; i < Name.size()+1; i++) {
+//            Log.d("Teacherbean", "getTeacherlist: " + Name.get(i));
+//            Teacherbean teacherbean = new Teacherbean();
+//            teacherbean.setName(Name.get(i+1));
+//            teacherbean.setTeacherimg(imgurl.get(i));
+//            Teacherlist.add(teacherbean);
         }
         return Teacherlist;
     }

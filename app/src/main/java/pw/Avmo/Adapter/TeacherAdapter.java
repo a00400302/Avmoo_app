@@ -1,21 +1,14 @@
 package pw.Avmo.Adapter;
 
-import android.graphics.Bitmap;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import pw.Avmo.R;
-import pw.Avmo.bean.InnerTeacherBean;
 import pw.Avmo.bean.Teacherbean;
 
 /**
@@ -39,7 +32,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.Viewhodl
     @Override
     public void onBindViewHolder(Viewhodler viewhodler, int position) {
         viewhodler.TeacherTTT.setText(list.get(position).getName());
-        viewhodler.TeacherIMG.setImageBitmap(list.get(position).getTeacherimg());
+//        viewhodler.TeacherIMG.setImageBitmap(list.get(position).getTeacherimg());
     }
 
 
@@ -50,11 +43,11 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.Viewhodl
 
     class Viewhodler extends RecyclerView.ViewHolder {
         TextView TeacherTTT;
-        ImageView TeacherIMG;
+//        ImageView TeacherIMG;
 
         Viewhodler(View itemView) {
             super(itemView);
-            TeacherIMG = (ImageView) itemView.findViewById(R.id.TeacherIMG);
+//            TeacherIMG = (ImageView) itemView.findViewById(R.id.TeacherIMG);
             TeacherTTT = (TextView) itemView.findViewById(R.id.TeacherTTT);
         }
     }

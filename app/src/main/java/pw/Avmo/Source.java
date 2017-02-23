@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -12,17 +11,14 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import pw.Avmo.Adapter.TeacherAdapter;
 import pw.Avmo.bean.InnerBean;
-import pw.Avmo.bean.InnerTeacherBean;
+import pw.Avmo.bean.Teacherbean;
 import pw.Avmo.bean.YulantuBean;
 
 /**
@@ -31,6 +27,18 @@ import pw.Avmo.bean.YulantuBean;
 public class Source {
     public Source(){
     }
+
+    public  static ArrayList<String> getURL(Document doc){
+        ArrayList<String> urllist = new ArrayList<>();
+        Elements elements = doc.select("div > a.movie-box ");
+        for (Element e : elements){
+            Log.d("innerF", "getURL: " + e.attr("href"));
+            urllist.add(e.attr("href"));
+        }
+        return urllist;
+
+    }
+
     public static ArrayList<String> getTitle(Document Doc) {
         ArrayList<String> titlearry = new ArrayList<String>();
         Elements elements = Doc.select("img");
@@ -65,40 +73,17 @@ public class Source {
         return Timearry;
     }
 
-    public static ArrayList<Bitmap> getImgUrl(Document Doc){
-        ArrayList<Bitmap> Urlarry = new ArrayList<>();
+    public static ArrayList<String> getImgUrl(Document Doc){
+        ArrayList<String> Urlarry = new ArrayList<>();
         Elements elements = Doc.select("img");
 
         for(Element asdf : elements) {
-            Bitmap mBitmap;
-            URL  url = null;
-            try {
-                url = new URL(asdf.attr("src"));
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                InputStream is =connection.getInputStream();
-                mBitmap = BitmapFactory.decodeStream(is);
-                Urlarry.add(mBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
+                String url =asdf.attr("src");
+                Urlarry.add(url);
         }
         return Urlarry;
     }
-    public  static ArrayList<URL> getMovie (Document Doc){
-        ArrayList<URL> Innerlist = new ArrayList<>();
-        Elements elements = Doc.select("div > a");
-        for (Element asdf :elements){
-            try {
-                URL url = new URL(asdf.attr("href"));
-                Innerlist.add(url);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-        return Innerlist;
-    }
+
     public static ArrayList<String> getTeacherName (Document document){
         ArrayList<String>  Name = new ArrayList<>();
         Elements elements =document.select("div > span");
@@ -107,25 +92,25 @@ public class Source {
         }
         return Name;
     }
-    public static ArrayList<Bitmap> getTeacherUrl (Document document){
-        ArrayList<Bitmap> TeacherIMG = new ArrayList<>();
-        Elements element = document.select("img");
-        for (Element asdf : element){
-            Bitmap mBitmap;
-            URL  url = null;
-            try {
-                url = new URL(asdf.attr("src"));
-                Log.d("Teacherbean", "getTeacherlistIMG: " + url.toString());
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                InputStream is = connection.getInputStream();
-                mBitmap = BitmapFactory.decodeStream(is);
-                TeacherIMG.add(mBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return TeacherIMG;
-    }
+//    public static ArrayList<Bitmap> getTeacherUrl (Document document){
+//        ArrayList<Bitmap> TeacherIMG = new ArrayList<>();
+//        Elements element = document.select("img");
+//        for (Element asdf : element){
+//            Bitmap mBitmap;
+//            URL  url = null;
+//            try {
+//                url = new URL(asdf.attr("src"));
+//                Log.d("Teacherbean", "getTeacherlistIMG: " + url.toString());
+//                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+//                InputStream is = connection.getInputStream();
+//                mBitmap = BitmapFactory.decodeStream(is);
+//                TeacherIMG.add(mBitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return TeacherIMG;
+//    }
 
 
     public static InnerBean getInnerName(Document document){
@@ -199,24 +184,16 @@ public class Source {
     //List<Bitmap> XiaojyuLantu;
     //List<Bitmap> DajyuLantu;
 
-    public  static List<InnerTeacherBean>  getTeacherIMG(Document document){
-        List<InnerTeacherBean> list = new ArrayList<InnerTeacherBean>();
+    public  static List<Teacherbean>  getTeacherIMG(Document document){
+        List<Teacherbean> list = new ArrayList<Teacherbean>();
         String doc = document.toString();
         Matcher TM = Pattern.compile("<span>(.+?)<\\/span>").matcher(doc);
         Matcher TIM = Pattern.compile("src=\"(.+?)\" title=\"\">").matcher(doc);
 
         for (int i ; TM.find()|TIM.find();){
-            InnerTeacherBean bean = new InnerTeacherBean();
-            bean.setTeachername(TM.group(1));
-            try {
-                URL url = new URL(TIM.group(1));
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                InputStream is = connection.getInputStream();
-                bean.setTeacherIMG(BitmapFactory.decodeStream(is));
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            Teacherbean  bean = new Teacherbean();
+            bean.setName(TM.group(1));
+            bean.setTeacherimg(TIM.group(1));
             list.add(bean);
         }
         return list;
@@ -227,18 +204,11 @@ public class Source {
         Matcher TIM = Pattern.compile("<img src=\"https://jp.netcdn.space/digital/video/(.+?)\\/").matcher(doc);
         for (int i = 1 ;TIM.find() & i <= 10;i++ ){
             YulantuBean bean = new YulantuBean();
-            try {
-                Log.d("innerF", "getYulanIMG: " +  "https://jp.netcdn.space/digital/video/" + TIM.group(1) + "/" + TIM.group(1) + "-" + i + ".jpg");
-                URL url = new URL("https://jp.netcdn.space/digital/video/" + TIM.group(1) + "/" + TIM.group(1) + "-" + i + ".jpg");
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                InputStream xiao = connection.getInputStream();
-//                bean.setDayulantu(new URL("https://jp.netcdn.space/digital/video/" + TIM.group(1) + "/" + TIM.group(1) + "jp-" + i + ".jpg,"));
-                bean.setXiaoyulantu(BitmapFactory.decodeStream(xiao));
+                String xiao = "https://jp.netcdn.space/digital/video/" + TIM.group(1) + "/" + TIM.group(1) + "-" + i + ".jpg";
+                String da = "https://jp.netcdn.space/digital/video/" + TIM.group(1) + "/" + TIM.group(1) + "jp-" + i + ".jpg";
+                bean.setXiaoyulantu(xiao);
+                bean.setDayulantu(da);
                 list.add(bean);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return  list;
     }
