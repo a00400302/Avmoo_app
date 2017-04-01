@@ -6,3 +6,10 @@
 .DS_Store
 /build
 /captures
+avmoo_v0.1.apk
+
+.idea/kotlinc.xml
+/gradle.properties
+/projectFilesBackup
+/.gitignore
+
