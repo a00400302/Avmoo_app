@@ -1,7 +1,7 @@
 package pw.Avmo.Fragment;
 
 
-import android.graphics.Bitmap;
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,18 +14,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
+import pw.Avmo.Activity.TeacherInnerAcivity;
 import pw.Avmo.Adapter.AllAdapter;
-import pw.Avmo.bean.Allbean;
+import pw.Avmo.Bean.AllBean;
 import pw.Avmo.R;
 import pw.Avmo.Source;
 
@@ -36,11 +36,11 @@ import pw.Avmo.Source;
  */
 public class AllFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private Integer urlindex = 1;
+    private List<AllBean> beanList;
     private RecyclerView listView;
     private Handler handler;
     private AllAdapter allAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private int TYPE = 0;
     private LinearLayoutManager layoutManager;
 
     public AllFragment() {
@@ -55,42 +55,25 @@ public class AllFragment extends Fragment implements SwipeRefreshLayout.OnRefres
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all, container, false);
+        handler = new firstHandeler();
         Thread getimgurl = new ietindeximgThread();
         getimgurl.setName("GET URL");
         getimgurl.start();
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+
         listView = (RecyclerView) view.findViewById(R.id.titlelist);
         layoutManager = new LinearLayoutManager(getActivity());
         listView.setLayoutManager(layoutManager);
-//        listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            int lastItem = 0;
-//
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (lastItem + 1 == allAdapter.getItemCount() / 2) {
-//                    swipeRefreshLayout.setRefreshing(true);
-//                    Thread getimgurl = new ietindeximgThread();
-//                    getimgurl.setName("add");
-//                    getimgurl.start();
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                lastItem = layoutManager.findLastVisibleItemPosition();
-//            }
-//        });
-        handler = new firstHandeler();
         swipeRefreshLayout.setOnRefreshListener(this);
+        int TYPE = 0;
         if (TYPE == 0) {
             swipeRefreshLayout.setRefreshing(true);
         } else {
@@ -99,6 +82,35 @@ public class AllFragment extends Fragment implements SwipeRefreshLayout.OnRefres
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastItem = 0;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                try {
+                    if (lastItem + 1 == allAdapter.getItemCount()) {
+                        swipeRefreshLayout.setRefreshing(true);
+                        Thread getimgurl = new ietindeximgThread();
+                        getimgurl.setName("add");
+                        getimgurl.start();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastItem = layoutManager.findLastVisibleItemPosition();
+            }
+        });
+    }
 
     @Override
     public void onRefresh() {
@@ -114,10 +126,13 @@ public class AllFragment extends Fragment implements SwipeRefreshLayout.OnRefres
         public void handleMessage(Message msg) {
             listView.setHasFixedSize(true);
             if (msg.what == 0) {
-                allAdapter = new AllAdapter((List<Allbean>) msg.obj);
+                allAdapter = new AllAdapter((List<AllBean>) msg.obj);
                 listView.setAdapter(allAdapter);
-            } else {
+            } else if(msg.what == 1){
+//                Toast.makeText(getActivity(), "加载中请稍等", Toast.LENGTH_SHORT).show();
                 allAdapter.notifyItemInserted(0);
+            }else if (msg.what == 2){
+                Toast.makeText(getActivity(), "没有啦 不要再划啦", Toast.LENGTH_SHORT).show();
             }
             swipeRefreshLayout.setRefreshing(false);
 
@@ -128,58 +143,40 @@ public class AllFragment extends Fragment implements SwipeRefreshLayout.OnRefres
 
     class ietindeximgThread extends Thread {
 
+        @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         public void run() {
             try {
-                if (getName() == "add") {
+                if (Objects.equals(getName(), "add")) {
                     urlindex += 1;
                 }
-//                    message.what = 1;
-//                }else {
-//                    message.what = 0;
-//                }
                 String url = "https://avmo.pw/cn/page/";
                 String urls = url + urlindex.toString();
                 Log.d("urls", "run: " + urls);
-                Document html = Jsoup.connect(urls).get();
+                Document html = Jsoup.connect(urls).ignoreHttpErrors(true).get();
                 Document content = Jsoup.parse(html.toString());
                 Message message = handler.obtainMessage();
-                if (getName() == "add") {
-                    urlindex += 1;
-                    message.what = 1;
+                if (Objects.equals(getName(), "add")) {
+//                    urlindex += 1;
+                    List<AllBean> list = Source.getAllBean(html);
+                    if (list.size() == 0){
+                        message.what = 2;
+                    }else {
+                        message.what = 1;
+                        beanList.addAll(list);
+                    }
                 } else {
                     message.what = 0;
+                    beanList = Source.getAllBean(content);
+                    message.obj = beanList;
                 }
-                message.obj = getAvmoolist(content);;
+
                 handler.sendMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
-    }
-
-    public List<Allbean> getAvmoolist(Document doc) {
-        List<String> title = Source.getTitle(doc);
-        List<String> fanhao = Source.getFanhao(doc);
-        ArrayList<String> imgurl = Source.getImgUrl(doc);
-        List<String> urls =  Source.getURL(doc);
-        List<String> time = Source.getTime(doc);
-        List<Allbean> allarray = new ArrayList<Allbean>();
-        for (int i = 0; i < title.size(); i++) {
-//            Log.d("allbeab", "getAvmooblist: " + imgurl.get(i));
-            Log.d("allbeab", "getAvmooblist: " + title.get(i) + i);
-            Log.d("allbeab", "getAvmooblist: " + fanhao.get(i));
-            Log.d("allbeab", "getAvmooblist: " + time.get(i));
-            Allbean allbean = new Allbean();
-            allbean.setFanhao(fanhao.get(i));
-            allbean.setUrl(urls.get(i));
-            allbean.setImgurl(imgurl.get(i));
-            allbean.setTime(time.get(i));
-            allbean.setTitle(title.get(i));
-            allarray.add(allbean);
-        }
-        return allarray;
     }
 
 }

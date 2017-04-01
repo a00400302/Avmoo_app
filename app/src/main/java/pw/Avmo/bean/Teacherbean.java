@@ -1,14 +1,21 @@
-package pw.Avmo.bean;
-
-import android.graphics.Bitmap;
+package pw.Avmo.Bean;
 
 /**
  * Created by bee on 2016/9/29.
  */
 
-public class Teacherbean {
+public class TeacherBean {
     private String Name;
     private String Teacherimg;
+    private String URL;
+
+    public String getURL() {
+        return URL;
+    }
+
+    public void setURL(String URL) {
+        this.URL = URL;
+    }
 
     public String getTeacherimg() {
         return Teacherimg;

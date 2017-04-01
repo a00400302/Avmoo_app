@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recycler_view_test_item_person_view2"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
-
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="25dp">
+        android:layout_margin="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,26 +16,23 @@
             android:layout_alignParentTop="true"
             android:orientation="vertical">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/TeacherIMG"
                 android:layout_width="fill_parent"
                 android:layout_height="170dp"
-                android:layout_below="@+id/fanhao"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
+                fresco:actualImageScaleType="fitCenter"
                 />
+
             <TextView
                 android:id="@+id/TeacherTTT"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dip"
+                android:textSize="15sp"
                 />
         </LinearLayout>
 
 
     </android.support.v7.widget.CardView>
-
-
 </LinearLayout>

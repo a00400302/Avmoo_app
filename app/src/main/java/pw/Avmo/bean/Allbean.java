@@ -1,13 +1,9 @@
-package pw.Avmo.bean;
-
-import android.graphics.Bitmap;
-
-import java.net.URL;
+package pw.Avmo.Bean;
 
 /**
  * Created by bee on 2016/9/18.
  */
-public class Allbean {
+public class AllBean {
     private String title;
     private String fanhao;
     private String Imgurl;
@@ -31,7 +27,7 @@ public class Allbean {
         this.time = time;
     }
 
-    public Allbean() {
+    public AllBean() {
     }
 
 

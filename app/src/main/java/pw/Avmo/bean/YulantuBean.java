@@ -1,16 +1,12 @@
-package pw.Avmo.bean;
-
-import android.graphics.Bitmap;
-
-import java.net.URL;
+package pw.Avmo.Bean;
 
 /**
  * Created by Administrator on 2017/2/16.
  */
 
 public class YulantuBean {
-    String Dayulantu;
-    String Xiaoyulantu;
+    private String Dayulantu;
+    private String Xiaoyulantu;
 
 
     public void setDayulantu(String dayulantu) {

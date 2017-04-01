@@ -1,16 +1,11 @@
-package pw.Avmo.bean;
-
-import android.graphics.Bitmap;
-
-import java.util.List;
-import java.util.PriorityQueue;
+package pw.Avmo.Bean;
 
 /**
  * Created by Administrator on 2017/2/14.
  */
 
 public class InnerBean {
-    private Bitmap Fenmian;
+    private String Fenmian;
     private String Fanhao;
     private String Title;
     private String KaifaShang;
@@ -29,7 +24,7 @@ public class InnerBean {
 
     }
 
-    public void setFenmian(Bitmap fenmian) {
+    public void setFenmian(String fenmian) {
         Fenmian = fenmian;
     }
 
@@ -67,7 +62,7 @@ public class InnerBean {
 
 
 
-    public Bitmap getFenmian() {
+    public String getFenmian() {
         return Fenmian;
     }
 

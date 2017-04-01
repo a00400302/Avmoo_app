@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/recycler_view_test_item_person_view"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
@@ -21,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dip"
-                android:textSize="10dip" />
+                android:textSize="10sp" />
 
 
             <TextView
@@ -29,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/thumbnail"
-                android:textSize="15dip" />
+                android:textSize="15sp" />
 
 
 
@@ -40,14 +41,17 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/TTT"
-                android:textSize="10dip" />
+                android:textSize="10sp" />
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/thumbnail"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_below="@+id/fanhao"
-                />
+                fresco:actualImageScaleType="fitCenter"
+                android:layout_below="@+id/fanhao"/>
+
+                <!--fresco:placeholderImage="@drawable/my_drawable"-->
+                <!--/>-->
         </RelativeLayout>
 
 

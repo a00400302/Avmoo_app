@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     package="pw.Avmo">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -7,13 +8,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:fullBackupContent="true"
         android:allowBackup="true"
         android:icon="@mipmap/avmoo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Avmoo"
+            android:name=".Activity.Avmoo"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,8 +23,29 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".Activity.SearchActivity" />
         </activity>
-        <activity android:name=".InnerActivity"></activity>
+        <activity android:name=".Activity.InnerActivity" />
+        <activity android:name=".Activity.TeacherInnerAcivity" />
+        <activity android:name=".Activity.CategoryActivity" />
+        <activity
+            android:name=".Activity.SearchActivity"
+            android:parentActivityName=".Activity.Avmoo">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activity.Avmoo" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

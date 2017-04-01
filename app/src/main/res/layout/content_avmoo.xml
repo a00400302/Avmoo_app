@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="pw.Avmo.Avmoo">
+    tools:context="pw.Avmo.Activity.Avmoo">
     <!--android.support.v4.widget.DrawerLayout-->
     <FrameLayout
         android:id="@+id/FragmentInner"
