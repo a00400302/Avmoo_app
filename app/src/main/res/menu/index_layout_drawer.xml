@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_all"
             android:icon="@mipmap/all"
             android:checked="true"
-            android:title="所有" />
+            android:title="@string/menu_all" />
         <item
             android:id="@+id/nav_teacher"
             android:icon="@mipmap/teacher"
-            android:title="老师" />
+            android:title="@string/menu_teacher" />
         <item
             android:id="@+id/nav_category"
             android:icon="@mipmap/category"
-            android:title="分类" />
-        <item
-            android:id="@+id/nav_favorites"
-            android:icon="@mipmap/fa"
-            android:title="收藏" />
-
-        <item android:title="其他">
-            <menu>
-                <item
-                    android:id="@+id/nav_share"
-                    android:icon="@mipmap/share"
-                    android:title="分享" />
-
-                <item
-                    android:id="@+id/nav_about"
-                    android:icon="@mipmap/info"
-                    android:title="关于" />
-            </menu>
-        </item>
+            android:title="@string/menu_category" />
     </group>
+
+    <item android:title="" />
+    <item android:title="" />
+    <item android:title="" />
+    <item android:title="" />
+    <item android:title="" />
+    <item android:title="" />
+
+    <group
+        android:id="@+id/g2">
+
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@mipmap/share"
+            android:title="@string/menu_share" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@mipmap/info"
+            android:title="@string/menu_about" />
+    </group>
+
+
 
 
 </menu>

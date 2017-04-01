@@ -1,12 +1,17 @@
-package pw.Avmo;
+package pw.Avmo.Activity;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
+import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -15,23 +20,28 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 
 import pw.Avmo.Adapter.InnerXiujyunLantuAdapter;
 
 import android.os.Message;
 import android.util.Log;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import pw.Avmo.Adapter.InnerTecherAdapter;
-import pw.Avmo.bean.InnerBean;
-import pw.Avmo.bean.Teacherbean;
-import pw.Avmo.bean.YulantuBean;
+import pw.Avmo.Adapter.TeacherAdapter;
+import pw.Avmo.R;
+import pw.Avmo.Source;
+import pw.Avmo.Bean.InnerBean;
+import pw.Avmo.Bean.TeacherBean;
+import pw.Avmo.Bean.YulantuBean;
 
 
 public class InnerActivity extends AppCompatActivity {
-    ImageView InnerFenmian;
+    SimpleDraweeView InnerFenmian;
     TextView InnerFanhao;
     TextView InnerTitle;
     TextView InnerFaxingShang;
@@ -45,18 +55,39 @@ public class InnerActivity extends AppCompatActivity {
     RecyclerView InnerRec;
     InnerXiujyunLantuAdapter innerXiujyunLantuAdapter;
     RecyclerView simple;
-
     String url;
 
     public InnerActivity() throws MalformedURLException {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        url = getIntent().getStringExtra("ALLURL");
         setContentView(R.layout.activity_inner);
-        InnerFenmian = (ImageView) findViewById(R.id.InnerIMG);
+        String fanhou = getIntent().getStringExtra("FANHAO");
+        getSupportActionBar().setTitle(fanhou);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
+
+
+
+        url = getIntent().getStringExtra("ALLURL");
+        Log.d("InnerActivity", url);
+        InnerFenmian = (SimpleDraweeView) findViewById(R.id.InnerIMG);
         InnerFanhao = (TextView) findViewById(R.id.InnerFanhao);
         InnerTitle = (TextView) findViewById(R.id.InnerTTT);
         InnerTime = (TextView) findViewById(R.id.InnerFXSJ);
@@ -69,8 +100,8 @@ public class InnerActivity extends AppCompatActivity {
 
         InnerRec = (RecyclerView) findViewById(R.id.InnerRec);
         simple = (RecyclerView) findViewById(R.id.simple);
-        RecyclerView.LayoutManager layoutManager1 = new GridLayoutManager(this, 2);
-        RecyclerView.LayoutManager layoutManager2 = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager layoutManager1 = new ScrollGridLayoutManager(this, 2);
+        RecyclerView.LayoutManager layoutManager2 = new ScrollGridLayoutManager(this, 2);
         InnerRec.setLayoutManager(layoutManager1);
         simple.setLayoutManager(layoutManager2);
 
@@ -88,7 +119,7 @@ public class InnerActivity extends AppCompatActivity {
                 case 1:
                     InnerBean innerBean = (InnerBean) msg.obj;
                     InnerDaoyan.setText(innerBean.getDaoyan());
-                    InnerFenmian.setImageBitmap(innerBean.getFenmian());
+                    InnerFenmian.setImageURI(innerBean.getFenmian());
                     InnerLeiBit.setText(innerBean.getLeiBit());
                     InnerXilie.setText(innerBean.getXilie());
                     InnerKaifaShang.setText(innerBean.getKaifaShang());
@@ -99,12 +130,10 @@ public class InnerActivity extends AppCompatActivity {
                     InnerHowLong.setText(innerBean.getHowLong());
                     break;
                 case 2:
-                    (List<Teacherbean>) msg.obj
-                    InnerTecherAdapter adapter = new InnerTecherAdapter();
+                    TeacherAdapter adapter = new TeacherAdapter((List<TeacherBean>) msg.obj);
                     InnerRec.setAdapter(adapter);
                     break;
                 case 3:
-
                     innerXiujyunLantuAdapter = new InnerXiujyunLantuAdapter((List<YulantuBean>) msg.obj);
                     simple.setAdapter(innerXiujyunLantuAdapter);
                     Thread thread = new thread();
@@ -116,14 +145,40 @@ public class InnerActivity extends AppCompatActivity {
         }
     }
 
+    public class ScrollGridLayoutManager extends GridLayoutManager{
+//        private boolean isScrollEnabled = true;
+        public ScrollGridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        ScrollGridLayoutManager(Context context, int spanCount) {
+            super(context, spanCount);
+        }
+
+        public ScrollGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
+            super(context, spanCount, orientation, reverseLayout);
+        }
+//
+//        public  void setScrollEnabled(boolean flag){
+//            this.isScrollEnabled = flag;
+//        }
+
+        @Override
+        public boolean canScrollVertically() {
+//            return super.canScrollVertically();
+            return false;
+        }
+    }
+
     private class thread extends Thread {
         List<YulantuBean> asdf;
 
 
+        @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         public void run() {
             super.run();
-            if (getName() == "xiao") {
+            if (Objects.equals(getName(), "xiao")) {
                 try {
                     for (YulantuBean i : asdf) {
                         URL url = new URL(i.getXiaoyulantu());
@@ -154,7 +209,7 @@ public class InnerActivity extends AppCompatActivity {
                     message2.what = 2;
                     message3.what = 3;
                     message1.obj = Source.getInnerName(html);
-                    message2.obj = Source.getTeacherIMG(html);
+                    message2.obj = Source.getTeacherIMG(html,1);
                     message3.obj = Source.getYulanIMG(html);
                     handler.sendMessage(message1);
                     handler.sendMessage(message2);
