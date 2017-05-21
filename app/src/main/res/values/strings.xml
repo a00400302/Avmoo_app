@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Avmoo</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="load">正在加载....</string>
+    <string name="loaded">加载完成</string>
+    <string name="menu_all">所有</string>
+    <string name="menu_teacher">老师</string>
+    <string name="menu_category">分类</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_about">关于</string>
+    <string name="inner_fanhao">识别码:</string>
+    <string name="inner_faxingshijian">发行时间:</string>
+    <string name="inner_changdu">长度:</string>
+    <string name="inner_zhizhaoshang">制造商:</string>
+    <string name="inner_faxingshang">发行商:</string>
+    <string name="inner_daoyan">导演:</string>
+    <string name="inner_lebie">类别:</string>
+    <string name="系列">系列:</string>
+    <string name="inner_yanyuan">演员</string>
+    <string name="inner_simple">样品图像</string>
+    <string name="category_theme">主题</string>
+    <string name="category_character">角色</string>
+    <string name="category_costume">服裝</string>
+    <string name="category_body_type">体型</string>
+    <string name="category_sex_actse">行為</string>
+    <string name="category_sex_plays">玩法</string>
+    <string name="category_genre">類別</string>
+    <string name="title_activity_search">SearchActivity</string>
+</resources>
