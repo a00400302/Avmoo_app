@@ -1,6 +1,7 @@
 package com.asuscomm.zhbee.avmoo_app.Activity;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -31,7 +33,6 @@ import java.util.Objects;
 
 import com.asuscomm.zhbee.avmoo_app.Fragment.MaOrManFragment;
 import com.asuscomm.zhbee.avmoo_app.R;
-
 
 
 public class SearchActivity extends BaseActivity {
@@ -55,9 +56,9 @@ public class SearchActivity extends BaseActivity {
         searchView.setFocusable(true);
         searchView.requestFocusFromTouch();
         searchView.setQueryHint("嘀~   学生卡");
-        if (searchView.isIconified()) {
-
-        }
+//        if (searchView.isIconified()) {
+//
+//        }
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +108,12 @@ public class SearchActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +122,7 @@ public class SearchActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("搜索");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         frameLayout = (FrameLayout) findViewById(R.id.search_layout);
         layout = (LinearLayout) findViewById(R.id.history_layout);
@@ -122,15 +130,15 @@ public class SearchActivity extends BaseActivity {
         Map<String, ?> all = sharedPreferences.getAll();
         Object[] keys = all.keySet().toArray();
         lll = new ArrayList<String>();
+
         for (int i = 0; i < keys.length; i++) {
             lll.add((String) all.get(keys[i]));
         }
         final RecyclerView listView = (RecyclerView) findViewById(R.id.history_list);
         adpater = new HistoryAdpater(lll);
-        listView.addItemDecoration(new SearchDecoration());
         listView.setAdapter(adpater);
 
-        listView.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
+        listView.setLayoutManager(new GridLayoutManager(this, 3));
 
         Button button = (Button) findViewById(R.id.clean_history_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -144,18 +152,6 @@ public class SearchActivity extends BaseActivity {
 
 
     }
-
-    private  class  SearchDecoration  extends RecyclerView.ItemDecoration {
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.left = 20;
-            outRect.top = 20;
-            outRect.right = 20;
-            outRect.bottom =20;
-        }
-    }
-
-
 
 
     class HistoryAdpater extends RecyclerView.Adapter<HistoryAdpater.HistoryViewHolder> {
