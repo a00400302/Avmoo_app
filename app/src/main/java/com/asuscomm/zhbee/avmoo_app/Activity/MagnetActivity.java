@@ -58,11 +58,11 @@ public class MagnetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_magnet);
         title = (TextView) MagnetActivity.this.findViewById(R.id.magnet_title);
-        if (getIntent().getIntExtra("back", 0) == 0) {
-            Toast.makeText(this, "暂时没有在线资源 试试用磁力链接吧", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "努力加载中", Toast.LENGTH_SHORT).show();
-        }
+//        if (getIntent().getIntExtra("back", 0) == 0) {
+//            Toast.makeText(this, "暂时没有在线资源 试试用磁力链接吧", Toast.LENGTH_SHORT).show();
+//        } else {
+        Toast.makeText(this, "努力加载中", Toast.LENGTH_SHORT).show();
+//        }
         listview = (RecyclerView) findViewById(R.id.magnet_list);
         fanhou = getIntent().getStringExtra("keyword");
         magnetHandler = new MagnetHandler();
