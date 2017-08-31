@@ -4,7 +4,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,7 +42,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.R.id.message;
 
 
 public class InnerActivity extends BaseActivity implements SwipeBackActivityBase {
@@ -80,6 +78,7 @@ public class InnerActivity extends BaseActivity implements SwipeBackActivityBase
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
     @Override
@@ -129,6 +128,15 @@ public class InnerActivity extends BaseActivity implements SwipeBackActivityBase
         RecyclerView.LayoutManager layoutManager1 = new ScrollGridLayoutManager(this, 2);
         RecyclerView.LayoutManager layoutManager2 = new ScrollGridLayoutManager(this, 2);
         InnerRec.setLayoutManager(layoutManager1);
+        InnerRec.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.right = 20;
+                outRect.top = 20 ;
+                outRect.left = 20;
+                outRect.bottom = 20;
+            }
+        });
         simple.setLayoutManager(layoutManager2);
         simple.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -222,60 +230,63 @@ public class InnerActivity extends BaseActivity implements SwipeBackActivityBase
         @Override
         public void run() {
             super.run();
-            keyHandler.handleMessage(getMessage(fanhou.toUpperCase()));
+            Message message = new Message();
+            message.what = 2;
+            keyHandler.handleMessage(message);
         }
     }
 
+//在线播放功能停用等待修复
 
-    public Message getMessage(String keyfanhou) {
-        String keyurl = "http://javbus555.com/index_movies.php?op=view&class=4&spcode=" + keyfanhou;
-        Document document = null;
-        try {
-            document = Jsoup.connect(keyurl).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Matcher matcher = Pattern.compile(":8080/videos(.*?).m3u8").matcher(document.body().toString());
-        Message message = keyHandler.obtainMessage();
-        if (matcher.find()) {
-            message.what = 1;
-            message.obj = matcher.group();
-            return message;
-        } else {
-            keyfanhou = fanhou.replaceAll("-", "");
-            keyurl = "http://javbus555.com/index_movies.php?op=view&class=4&spcode=" + keyfanhou;
-            try {
-                document = Jsoup.connect(keyurl).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            matcher = Pattern.compile(":8080/videos(.*?).m3u8").matcher(document.body().toString());
-            if (matcher.find()) {
-                message.what = 1;
-                message.obj = matcher.group();
-                return message;
-            } else {
-                message.what = 2;
-                return message;
-            }
-        }
-    }
+//    public Message getMessage(String keyfanhou) {
+//        String keyurl = "http://javbus555.com/index_movies.php?op=view&class=4&spcode=" + keyfanhou;
+//        Document document = null;
+//        try {
+//            document = Jsoup.connect(keyurl).get();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Matcher matcher = Pattern.compile(":8080/videos(.*?).m3u8").matcher(document.body().toString());
+//        Message message = keyHandler.obtainMessage();
+//        if (matcher.find()) {
+//            message.what = 1;
+//            message.obj = matcher.group();
+//            return message;
+//        } else {
+//            keyfanhou = fanhou.replaceAll("-", "");
+//            keyurl = "http://javbus555.com/index_movies.php?op=view&class=4&spcode=" + keyfanhou;
+//            try {
+//                document = Jsoup.connect(keyurl).get();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            matcher = Pattern.compile(":8080/videos(.*?).m3u8").matcher(document.body().toString());
+//            if (matcher.find()) {
+//                message.what = 1;
+//                message.obj = matcher.group();
+//                return message;
+//            } else {
+//                message.what = 2;
+//                return message;
+//            }
+//        }
+//    }
 
 
     class keyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 1) {
-                Intent intent = new Intent(InnerActivity.this, MediaSelectActivity.class);
-                intent.putExtra("keyword", fanhou);
-                intent.putExtra("key", (String) msg.obj);
-                startActivity(intent);
-            } else if (msg.what == 2) {
+//            if (msg.what == 1) {
+//                Intent intent = new Intent(InnerActivity.this, MediaSelectActivity.class);
+//                intent.putExtra("keyword", fanhou);
+//                intent.putExtra("key", (String) msg.obj);
+//                startActivity(intent);
+//            } else if (msg.what == 2) {
                 Intent intent = new Intent(InnerActivity.this, MagnetActivity.class);
                 intent.putExtra("keyword", fanhou);
                 startActivity(intent);
-            }
+//            }
         }
     }
 

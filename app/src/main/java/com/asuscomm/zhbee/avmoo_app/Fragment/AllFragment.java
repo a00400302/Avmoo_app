@@ -209,10 +209,10 @@ public class AllFragment extends BlankFragment implements SwipeRefreshLayout.OnR
                 }
                 String url = null;
                 if (maOrManTYPE == MA){
-                    url = "https://www.javbus3.com/page/";
+                    url = "https://www.javbus.com/page/";
                 }
                 if (maOrManTYPE == MAN){
-                    url = "https://www.javbus3.com/uncensored/page/";
+                    url = "https://www.javbus.com/uncensored/page/";
                 }
                 if (maOrManTYPE == OU){
                     url = "https://www.javbus.xyz/page/";

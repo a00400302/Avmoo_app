@@ -86,9 +86,9 @@ public class CategoryFragment extends BlankFragment {
             try {
                 String url = null;
                 if (maOrManTYPE == MA){
-                    url = "https://www.javbus3.com/genre";
+                    url = "https://www.javbus.com/genre";
                 }else if (maOrManTYPE == MAN){
-                    url = "https://www.javbus3.com/uncensored/genre";
+                    url = "https://www.javbus.com/uncensored/genre";
                 }
                 Document document = Jsoup.connect(url).get();
                 Message message = handler.obtainMessage();

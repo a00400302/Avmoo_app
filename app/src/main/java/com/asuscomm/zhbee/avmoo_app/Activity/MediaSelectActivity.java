@@ -1,5 +1,6 @@
 package com.asuscomm.zhbee.avmoo_app.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -11,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.asuscomm.zhbee.avmoo_app.R;
 
 public class MediaSelectActivity extends AppCompatActivity {
@@ -24,6 +27,9 @@ public class MediaSelectActivity extends AppCompatActivity {
         return true;
     }
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +39,9 @@ public class MediaSelectActivity extends AppCompatActivity {
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaSelectActivity.this,MagnetActivity.class);
-                intent.putExtra("keyword",keyword );
-                intent.putExtra("back",1);
+                Intent intent = new Intent(MediaSelectActivity.this, MagnetActivity.class);
+                intent.putExtra("keyword", keyword);
+                intent.putExtra("back", 1);
                 startActivity(intent);
                 finish();
             }
@@ -69,7 +75,6 @@ public class MediaSelectActivity extends AppCompatActivity {
         selectList.setLayoutManager(new LinearLayoutManager(MediaSelectActivity.this));
 
 
-
     }
 
 
@@ -93,7 +98,7 @@ public class MediaSelectActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent openVideo = new Intent(Intent.ACTION_VIEW);
-                    openVideo.setDataAndType(Uri.parse(strings[position]+getIntent().getStringExtra("key")), "video/*");
+                    openVideo.setDataAndType(Uri.parse(strings[position] + getIntent().getStringExtra("key")), "video/*");
                     startActivity(openVideo);
                 }
             });

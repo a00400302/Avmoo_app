@@ -145,9 +145,9 @@ public class TeacherFragment extends BlankFragment implements SwipeRefreshLayout
                 String url = null;
 
                 if (maOrManTYPE == MA) {
-                    url = "https://www.javbus3.com/actresses/";
+                    url = "https://www.javbus.com/actresses/";
                 } else if (maOrManTYPE == MAN) {
-                    url = "https://www.javbus3.com/uncensored/actresses/";
+                    url = "https://www.javbus.com/uncensored/actresses/";
                 }
 
 

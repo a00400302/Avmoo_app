@@ -135,9 +135,9 @@ public class SreachFragment extends BlankFragment implements SwipeRefreshLayout.
                     urlindex += 1;
                 }
                 if (maOrManTYPE == MA) {
-                    url = "https://www.javbus3.com/search/" + keyword + "/" + urlindex + "&type=1";
+                    url = "https://www.javbus.com/search/" + keyword + "/" + urlindex + "&type=1";
                 } else {
-                    url = "https://www.javbus3.com/uncensored/search/" + keyword + "/" + urlindex + "&type=1";
+                    url = "https://www.javbus.com/uncensored/search/" + keyword + "/" + urlindex + "&type=1";
                 }
 
                 Document document = Jsoup.connect(url).ignoreHttpErrors(true).get();
